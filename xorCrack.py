@@ -72,4 +72,6 @@ password = ""
 for i in range(keylength):
     binDictOut = freq(inputfile, keylength, i)
     password += max(binDictOut, key=binDictOut.get)
-print password
+print "-------XOR Cracker Results-------"
+print "The key length is probably: " + keylength
+print "The password might be: " + password
