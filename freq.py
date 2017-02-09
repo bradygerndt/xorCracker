@@ -1,4 +1,3 @@
-
 #gets a dictionary of unique values and their counts
 def freq(input, skip, startat):
     binDict = {}
@@ -44,6 +43,18 @@ def coinc(uniqueChars, input):
     f.close()
     return coinciDict
 
+def lengthGuess(inputDict):
+    guessDict = {}
+    for x in inputDict:
+        count = 0
+        multiples = 0
+        for i in inputDict:
+            if i % x == 0:
+                multiples += 1
+                count += inputDict[i]
+        guessDict[x] = (float(count)/float(multiples))
+    return guessDict
+
 #Prints out a dictionary to CSV for frequency analysis
 def writeDictCSV(dict, fileOutName):
     fo = open(fileOutName + '.csv', 'w')
@@ -52,17 +63,13 @@ def writeDictCSV(dict, fileOutName):
         fo.write(str(i) + "," + str(dict[i]) + "\n")
     fo.close()
 
-
-binDictOut = freq('out.txt', 13, 0)
-coinciDict = coinc(binDictOut, 'out.txt')
-writeDictCSV(coinciDict, 'resultsCSV')\
-
-#need to find a way to automate frequency analysis
-
-keylength = 13
+inputfile = 'out.txt'
+binDictOut = freq(inputfile, 0, 0)
+coinciDict = coinc(binDictOut, inputfile)
+prob = lengthGuess(coinciDict)
+keylength = max(prob, key=prob.get)
 password = ""
-
 for i in range(keylength):
-    binDictOut = freq('out.txt', keylength, i)
+    binDictOut = freq(inputfile, keylength, i)
     password += max(binDictOut, key=binDictOut.get)
 print password
